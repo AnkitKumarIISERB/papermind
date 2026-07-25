@@ -1,0 +1,30 @@
+# ── Python ──────────────────────────────────────
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+*.egg
+dist/
+build/
+
+# ── Node ────────────────────────────────────────
+node_modules/
+dist/
+
+# ── Environment ─────────────────────────────────
+.env
+.env.local
+.env.production
+
+# ── IDE ─────────────────────────────────────────
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+
+# ── Models (downloaded at runtime) ──────────────
+*.bin
+*.onnx
+sentence-transformers/
