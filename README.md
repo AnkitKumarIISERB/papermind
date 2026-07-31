@@ -1,17 +1,22 @@
 <div align="center">
-  <img src="docs/logo.svg" alt="PaperMind Logo" width="80" />
-  <h1>PaperMind</h1>
+  <h1>🧠 PaperMind</h1>
   <p><strong>AI-Powered Research Intelligence Platform</strong></p>
-  <p>Discover, analyze, and explore academic papers using semantic search, knowledge graphs, and RAG-powered Q&A.</p>
+  <p>Discover, analyze, and explore academic papers using semantic search, knowledge graphs, and RAG-powered Q&A — all grounded in real papers with zero hallucination.</p>
 
   <p>
-    <img src="https://img.shields.io/badge/python-3.11+-blue?style=flat-square&logo=python" alt="Python" />
-    <img src="https://img.shields.io/badge/FastAPI-0.104+-009688?style=flat-square&logo=fastapi" alt="FastAPI" />
-    <img src="https://img.shields.io/badge/React-18+-61DAFB?style=flat-square&logo=react" alt="React" />
-    <img src="https://img.shields.io/badge/PostgreSQL-pgvector-4169E1?style=flat-square&logo=postgresql" alt="PostgreSQL" />
-    <img src="https://img.shields.io/badge/Groq-LLM-orange?style=flat-square" alt="Groq" />
+    <img src="https://img.shields.io/badge/python-3.11+-blue?style=for-the-badge&logo=python" alt="Python" />
+    <img src="https://img.shields.io/badge/FastAPI-009688?style=for-the-badge&logo=fastapi&logoColor=white" alt="FastAPI" />
+    <img src="https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB" alt="React" />
+    <img src="https://img.shields.io/badge/pgvector-4169E1?style=for-the-badge&logo=postgresql&logoColor=white" alt="pgvector" />
+    <img src="https://img.shields.io/badge/Groq_LLM-orange?style=for-the-badge" alt="Groq" />
   </p>
+
+  <h3>
+    <a href="https://papermind-lemon.vercel.app" target="_blank">🌐 Try the Live Demo</a>
+  </h3>
 </div>
+
+<br/>
 
 ---
 
@@ -19,12 +24,14 @@
 
 | Feature | Description |
 |---------|-------------|
-| 🔍 **Semantic Search** | Search papers by meaning, not keywords — powered by sentence transformers + pgvector |
-| 🧠 **RAG Q&A** | Ask questions about your paper collection — grounded answers with zero hallucination |
-| 📊 **Research Analytics** | Interactive dashboards with publication trends, field distributions, and venue analysis |
-| 🕸️ **Knowledge Graph** | Visual similarity network showing topic clusters — node size = citations, color = year |
-| 📝 **Literature Reviews** | AI-generated reviews in 4 styles: comprehensive, brief, gap analysis, and trend reports |
-| 📥 **Topic Ingestion** | Bulk-fetch papers from Semantic Scholar with one click — abstracts auto-embedded |
+| 🔍 **Semantic Search** | Search papers by meaning, not keywords — powered by sentence transformers + pgvector cosine similarity |
+| 🧠 **RAG Q&A** | Ask questions about your paper collection — grounded answers citing specific papers, zero hallucination |
+| 📊 **Research Analytics** | 6 interactive charts: publication trends, cumulative growth, field distribution, open access ratio, top authors, top venues |
+| 🕸️ **Knowledge Graph** | Force-directed similarity network — papers with similar embeddings are connected, node size = citations, color = year |
+| 📝 **Literature Reviews** | AI-generated reviews in 4 styles: comprehensive, brief overview, research gaps, and trend analysis |
+| 📥 **Topic Ingestion** | Bulk-fetch papers from Semantic Scholar with one click — abstracts auto-embedded into 384-dim vectors |
+
+---
 
 ## 🏗️ Architecture
 
@@ -56,104 +63,72 @@
 └─────────────────────────────────────────────────────────────┘
 ```
 
-## 🚀 Quick Start
+---
 
-### Prerequisites
+## ⚡ Key Engineering Decisions
 
-- Python 3.11+
-- Node.js 18+
-- PostgreSQL with pgvector (or [Neon.tech](https://neon.tech) free tier)
-- Redis (or [Upstash](https://upstash.com) free tier)
-- [Groq API Key](https://console.groq.com/keys) (free)
-
-### 1. Clone & Setup
-
-```bash
-git clone https://github.com/your-username/papermind.git
-cd papermind
-
-# Backend
-cd backend
-cp .env.example .env
-# Edit .env with your credentials
-python -m venv .venv && source .venv/bin/activate
-pip install -r requirements.txt
-
-# Frontend
-cd ../frontend
-npm install
-```
-
-### 2. Database Setup
-
-If using Neon.tech, run in the SQL Editor:
+### 1. Similarity-Based Knowledge Graph
+Traditional citation graphs require expensive API calls per paper. Instead, PaperMind computes **cosine similarity between paper embeddings** directly in PostgreSQL using pgvector's `<=>` operator, creating meaningful topic clusters with a single SQL query:
 ```sql
-CREATE EXTENSION IF NOT EXISTS vector;
+SELECT e1.paper_id, e2.paper_id, 1 - (e1.embedding <=> e2.embedding) AS similarity
+FROM paper_embeddings e1 CROSS JOIN paper_embeddings e2
+WHERE similarity > 0.55
 ```
 
-### 3. Run
+### 2. RAG Over Hallucination
+The Q&A system retrieves the top-K most relevant paper abstracts via vector similarity search, then feeds them as context to Groq's Llama 3.1. The LLM can **only** cite papers that exist in the database — no hallucinated references.
 
-```bash
-# Terminal 1 — Backend
-cd backend && source .venv/bin/activate
-uvicorn app.main:app --reload --port 8000
+### 3. Sync Fallback for Celery
+The ingestion pipeline supports both async (Celery + Redis) and synchronous execution. When Celery workers aren't available, the `/ingest` endpoint runs the full pipeline in-process — enabling single-command local development without Docker.
 
-# Terminal 2 — Frontend
-cd frontend
-npm run dev
-```
-
-Open **http://localhost:5173** and start exploring!
+---
 
 ## 📦 Tech Stack
 
-### Backend
-- **FastAPI** — async REST API with auto-generated OpenAPI docs
-- **SQLAlchemy 2.0** — async ORM with relationship mapping
-- **pgvector** — vector similarity search inside PostgreSQL
-- **sentence-transformers** — `all-MiniLM-L6-v2` for 384-dim embeddings
-- **Groq** — ultra-fast LLM inference (Llama 3.1)
-- **Celery** — optional async task queue for background ingestion
+| Layer | Technology | Purpose |
+|-------|-----------|---------|
+| **API** | FastAPI + async SQLAlchemy 2.0 | Non-blocking REST endpoints |
+| **Embeddings** | sentence-transformers `all-MiniLM-L6-v2` | 384-dim paper abstract vectors |
+| **Vector Search** | pgvector | Cosine similarity inside PostgreSQL |
+| **LLM** | Groq (Llama 3.1 8B) | <800ms inference for Q&A and reviews |
+| **Frontend** | React 18 + Vite + Recharts + vis-network | 6-page SPA with interactive graphs |
+| **Database** | Neon.tech (serverless PostgreSQL) | Free-tier cloud Postgres with pgvector |
+| **Cache** | Upstash (serverless Redis) | Task queue and caching |
+| **Hosting** | Render (backend) + Vercel (frontend) | $0/month deployment |
 
-### Frontend
-- **React 18** — component-based UI with hooks
-- **Vite** — lightning-fast HMR and builds
-- **Recharts** — responsive data visualization
-- **vis-network** — force-directed graph rendering
-- **Axios** — HTTP client
+---
 
-### Infrastructure
-- **Neon.tech** — serverless PostgreSQL with pgvector
-- **Upstash** — serverless Redis for caching
-- **Render** — backend hosting
-- **Vercel** — frontend hosting
-
-## 📁 Project Structure
+## 📂 Project Structure
 
 ```
 papermind/
 ├── backend/
 │   ├── app/
-│   │   ├── api/           # Route handlers (papers, search, qa, review)
-│   │   ├── core/          # Config, Celery, settings
-│   │   ├── db/            # SQLAlchemy models + session
-│   │   └── services/      # Business logic
-│   │       ├── embeddings.py        # Sentence transformer embedding
-│   │       ├── ingestion.py         # Paper fetch + store pipeline
-│   │       ├── semantic_scholar.py  # S2 API client
-│   │       └── qa.py               # RAG question answering
+│   │   ├── api/              # REST route handlers
+│   │   │   ├── papers.py     # Ingest, list, graph, stats
+│   │   │   ├── search.py     # Semantic search + Q&A
+│   │   │   └── collections.py
+│   │   ├── core/             # Config + Celery
+│   │   ├── db/               # SQLAlchemy models + async session
+│   │   └── services/         # Business logic
+│   │       ├── embeddings.py       # Sentence transformer pipeline
+│   │       ├── ingestion.py        # S2 fetch → store → embed
+│   │       ├── semantic_scholar.py # API client with rate limiting
+│   │       └── qa.py              # RAG question answering
 │   ├── tests/
 │   ├── requirements.txt
 │   └── .env.example
 ├── frontend/
-│   ├── src/
-│   │   ├── pages/         # React page components
-│   │   ├── api.js         # API client
-│   │   ├── App.jsx        # Router + layout
-│   │   └── index.css      # Design system
-│   └── package.json
+│   └── src/
+│       ├── pages/            # 6 React page components
+│       ├── api.js            # Axios API client
+│       ├── App.jsx           # Router + nav
+│       └── index.css         # Design system
+├── render.yaml               # Render deployment config
 └── README.md
 ```
+
+---
 
 ## 🔑 Environment Variables
 
@@ -161,33 +136,40 @@ papermind/
 |----------|-------------|----------|
 | `DATABASE_URL` | PostgreSQL connection string (asyncpg) | ✅ |
 | `REDIS_URL` | Redis/Upstash connection | ✅ |
-| `GROQ_API_KEY` | Groq API key for LLM | ✅ |
-| `SEMANTIC_SCHOLAR_API_KEY` | S2 API key (higher rate limits) | ❌ |
+| `GROQ_API_KEY` | Groq API key for LLM ([free](https://console.groq.com/keys)) | ✅ |
+| `SEMANTIC_SCHOLAR_API_KEY` | S2 API key for higher rate limits | ❌ |
 | `EMBEDDING_MODEL_NAME` | HuggingFace model ID | ❌ |
 
-## 📸 Screenshots
+---
 
-### Discover & Ingest
-Fetch papers from Semantic Scholar with one click. See real-time stats and publication trends.
+## 🚀 Quick Start
 
-### Semantic Search
-Search by meaning — "attention mechanisms for fusing audio and text" finds relevant papers even without exact keyword matches.
+```bash
+git clone https://github.com/AnkitKumarIISERB/papermind.git
+cd papermind
 
-### Knowledge Graph
-Interactive force-directed graph showing semantic similarity clusters. Edge thickness = similarity strength.
+# Backend
+cd backend
+cp .env.example .env        # Edit with your credentials
+python -m venv .venv && source .venv/bin/activate
+pip install -r requirements.txt
+uvicorn app.main:app --reload --port 8000
 
-### Analytics Dashboard
-6 interactive charts: publication volume, cumulative growth, field distribution, open access ratio, top authors, and top venues.
+# Frontend (new terminal)
+cd ../frontend
+npm install
+npm run dev
+```
 
-### RAG Q&A
-Ask research questions grounded in your indexed papers. Every answer cites specific papers — no hallucination.
+Open **http://localhost:5173** → enter a research topic → click "Fetch Papers" → explore!
 
-### Literature Review
-AI-generated reviews in 4 styles: comprehensive, brief overview, research gaps, and trend analysis.
+---
 
-## 📄 License
+## ⚠️ Known Limitations
 
-MIT License. See [LICENSE](LICENSE) for details.
+1. **Render Cold Starts**: Free-tier backend sleeps after 15 min of inactivity. First request takes ~30s to wake.
+2. **Semantic Scholar Rate Limits**: Without an API key, limited to 100 requests/5 min. The ingestion pipeline auto-retries with backoff.
+3. **CPU-Only Embeddings**: sentence-transformers runs on CPU (~0.5s per abstract). GPU would be 10x faster but isn't available on free hosting.
 
 ---
 
