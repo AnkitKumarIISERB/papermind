@@ -174,5 +174,5 @@ Open **http://localhost:5173** → enter a research topic → click "Fetch Paper
 ---
 
 <div align="center">
-  <p>Built with 💜 by Ankit Yadav</p>
+  <p>Built with 💜 by Ankit</p>
 </div>
