@@ -18,6 +18,25 @@
 
 <br/>
 
+## 📸 Screenshots
+
+<table>
+  <tr>
+    <td align="center"><strong>Discover & Stats</strong></td>
+    <td align="center"><strong>Knowledge Graph</strong></td>
+  </tr>
+  <tr>
+    <td><img src="docs/discover.png" width="450"/></td>
+    <td><img src="docs/graph.png" width="450"/></td>
+  </tr>
+  <tr>
+    <td align="center" colspan="2"><strong>Analytics Dashboard</strong></td>
+  </tr>
+  <tr>
+    <td colspan="2" align="center"><img src="docs/analytics.png" width="700"/></td>
+  </tr>
+</table>
+
 ---
 
 ## ✨ Features
