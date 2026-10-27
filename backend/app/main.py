@@ -58,10 +58,12 @@ app.add_middleware(
 from app.api.papers import router as papers_router
 from app.api.search import router as search_router
 from app.api.collections import router as collections_router
+from app.api.agent import router as agent_router
 
 app.include_router(papers_router, prefix="/api/v1")
 app.include_router(search_router, prefix="/api/v1")
 app.include_router(collections_router, prefix="/api/v1")
+app.include_router(agent_router, prefix="/api/v1")
 
 
 # ── Health check ─────────────────────────────────────────────

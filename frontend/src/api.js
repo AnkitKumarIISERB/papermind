@@ -64,6 +64,11 @@ export const askQuestionStream = async function* (question, topK = 8) {
   }
 };
 
+// ── Agent Mode ──────────────────────────────────────────────
+
+export const askAgent = (question) =>
+  api.post('/agent/ask', { question });
+
 // ── Literature Review ───────────────────────────────────────
 
 export const generateReview = (paperIds, focusTopic = null) =>

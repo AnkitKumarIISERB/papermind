@@ -28,7 +28,11 @@ class Settings(BaseSettings):
 
     # ── Groq API ─────────────────────────────────────────────
     groq_api_key: str = ""
-    groq_model: str = "llama-3.1-8b-instant"
+    groq_model: str = "qwen/qwen3.8-27b"
+
+    # ── Agent (LangGraph) ────────────────────────────────────
+    agent_model_name: str = "qwen/qwen3.8-27b"  # needs reliable tool-calling
+    agent_max_iterations: int = 5
 
     # ── Semantic Scholar ─────────────────────────────────────
     semantic_scholar_api_key: str = ""  # Optional — works without key
