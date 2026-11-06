@@ -21,8 +21,8 @@ function App() {
               <line x1="1" y1="14" x2="27" y2="14" stroke="url(#navGrad)" strokeWidth="1.5" opacity="0.4" />
               <defs>
                 <linearGradient id="navGrad" x1="0" y1="0" x2="28" y2="28">
-                  <stop stopColor="#7c3aed" />
-                  <stop offset="1" stopColor="#a78bfa" />
+                  <stop stopColor="#2563eb" />
+                  <stop offset="1" stopColor="#60a5fa" />
                 </linearGradient>
               </defs>
             </svg>

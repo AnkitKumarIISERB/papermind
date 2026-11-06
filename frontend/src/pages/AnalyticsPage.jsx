@@ -5,7 +5,7 @@ import {
   PieChart, Pie, Cell, AreaChart, Area, Treemap,
 } from 'recharts';
 
-const COLORS = ['#7c3aed', '#a78bfa', '#818cf8', '#c084fc', '#6366f1', '#8b5cf6', '#a855f7', '#d946ef'];
+const COLORS = ['#2563eb', '#3b82f6', '#60a5fa', '#93c5fd', '#1d4ed8', '#6366f1', '#818cf8', '#38bdf8'];
 
 export default function AnalyticsPage() {
   const [stats, setStats] = useState(null);
@@ -163,11 +163,11 @@ export default function AnalyticsPage() {
               <Tooltip {...tooltipStyle} />
               <defs>
                 <linearGradient id="areaGrad" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stopColor="#7c3aed" stopOpacity={0.4} />
-                  <stop offset="100%" stopColor="#7c3aed" stopOpacity={0.02} />
+                  <stop offset="0%" stopColor="#2563eb" stopOpacity={0.4} />
+                  <stop offset="100%" stopColor="#2563eb" stopOpacity={0.02} />
                 </linearGradient>
               </defs>
-              <Area type="monotone" dataKey="total" stroke="#7c3aed" strokeWidth={2.5} fill="url(#areaGrad)" />
+              <Area type="monotone" dataKey="total" stroke="#2563eb" strokeWidth={2.5} fill="url(#areaGrad)" />
             </AreaChart>
           </ResponsiveContainer>
         </div>

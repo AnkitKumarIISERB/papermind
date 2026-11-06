@@ -65,8 +65,8 @@ export default function GraphPage() {
         color: {
           background: getNodeColor(n.year),
           border: getNodeColor(n.year),
-          highlight: { background: '#fff', border: '#7c3aed' },
-          hover: { background: '#a78bfa', border: '#7c3aed' },
+          highlight: { background: '#fff', border: '#2563eb' },
+          hover: { background: '#60a5fa', border: '#2563eb' },
         },
         _data: n,
       }))
@@ -78,9 +78,9 @@ export default function GraphPage() {
         from: e.from,
         to: e.to,
         color: {
-          color: `rgba(124,58,237,${Math.min((e.similarity || 0.5) * 0.5, 0.3)})`,
-          highlight: '#7c3aed',
-          hover: '#a78bfa',
+          color: `rgba(37,99,235,${Math.min((e.similarity || 0.5) * 0.5, 0.3)})`,
+          highlight: '#2563eb',
+          hover: '#60a5fa',
         },
         width: (e.similarity || 0.5) * 2,
         smooth: { type: 'continuous' },
@@ -138,7 +138,7 @@ export default function GraphPage() {
     <div className="fade-in">
       <div className="page-header">
         <h2>Knowledge Graph</h2>
-        <p>Semantic similarity network — papers with similar research topics are connected. Node size = citations, color = year (purple→cyan).</p>
+        <p>Semantic similarity network — papers with similar research topics are connected. Node size = citations, color = year (blue→cyan).</p>
       </div>
 
       {/* Controls */}
@@ -175,7 +175,7 @@ export default function GraphPage() {
             step="0.05"
             value={threshold}
             onChange={(e) => setThreshold(parseFloat(e.target.value))}
-            style={{ marginLeft: '0.5rem', width: '100px', accentColor: '#7c3aed' }}
+            style={{ marginLeft: '0.5rem', width: '100px', accentColor: '#2563eb' }}
           />
           <span className="mono" style={{ marginLeft: '0.35rem', color: 'var(--accent-secondary)' }}>{threshold.toFixed(2)}</span>
         </label>
@@ -204,7 +204,7 @@ export default function GraphPage() {
                 Publication Year
               </div>
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.35rem' }}>
-                <div style={{ width: 12, height: 12, borderRadius: '50%', background: '#7c3aed' }}></div>
+                <div style={{ width: 12, height: 12, borderRadius: '50%', background: '#2563eb' }}></div>
                 <span>Older papers</span>
               </div>
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.35rem' }}>

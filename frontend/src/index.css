@@ -4,24 +4,24 @@
 :root {
   --bg-primary: #06060e;
   --bg-secondary: #0c0c18;
-  --bg-card: #111125;
-  --bg-card-hover: #161638;
-  --bg-input: #0e0e22;
-  --bg-glass: rgba(17, 17, 37, 0.75);
-  --bg-glass-light: rgba(124, 58, 237, 0.06);
+  --bg-card: #0f1729;
+  --bg-card-hover: #162033;
+  --bg-input: #0c1524;
+  --bg-glass: rgba(15, 23, 41, 0.75);
+  --bg-glass-light: rgba(37, 99, 235, 0.06);
 
   --text-primary: #eaeaf0;
   --text-secondary: #8888a8;
   --text-muted: #5a5a78;
-  --text-accent: #a78bfa;
+  --text-accent: #60a5fa;
 
-  --accent-primary: #7c3aed;
-  --accent-secondary: #a78bfa;
-  --accent-tertiary: #c4b5fd;
-  --accent-gradient: linear-gradient(135deg, #7c3aed 0%, #a78bfa 50%, #818cf8 100%);
-  --accent-gradient-text: linear-gradient(135deg, #a78bfa, #818cf8, #c084fc);
-  --accent-glow: 0 0 30px rgba(124, 58, 237, 0.25);
-  --accent-glow-strong: 0 0 60px rgba(124, 58, 237, 0.35);
+  --accent-primary: #2563eb;
+  --accent-secondary: #60a5fa;
+  --accent-tertiary: #93c5fd;
+  --accent-gradient: linear-gradient(135deg, #2563eb 0%, #3b82f6 50%, #60a5fa 100%);
+  --accent-gradient-text: linear-gradient(135deg, #60a5fa, #3b82f6, #93c5fd);
+  --accent-glow: 0 0 30px rgba(37, 99, 235, 0.25);
+  --accent-glow-strong: 0 0 60px rgba(37, 99, 235, 0.35);
 
   --success: #34d399;
   --warning: #fbbf24;
@@ -29,9 +29,9 @@
   --info: #60a5fa;
   --cyan: #22d3ee;
 
-  --border-color: rgba(124, 58, 237, 0.08);
-  --border-active: rgba(124, 58, 237, 0.35);
-  --border-glow: rgba(124, 58, 237, 0.2);
+  --border-color: rgba(37, 99, 235, 0.08);
+  --border-active: rgba(37, 99, 235, 0.35);
+  --border-glow: rgba(37, 99, 235, 0.2);
 
   --radius-sm: 10px;
   --radius-md: 14px;
@@ -42,7 +42,7 @@
   --shadow-sm: 0 2px 12px rgba(0, 0, 0, 0.4);
   --shadow-md: 0 4px 24px rgba(0, 0, 0, 0.5);
   --shadow-lg: 0 8px 48px rgba(0, 0, 0, 0.6);
-  --shadow-glow: 0 0 40px rgba(124, 58, 237, 0.15);
+  --shadow-glow: 0 0 40px rgba(37, 99, 235, 0.15);
 
   --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
   --transition-slow: all 0.45s cubic-bezier(0.16, 1, 0.3, 1);
@@ -92,9 +92,9 @@ body {
   width: 200%;
   height: 200%;
   background:
-    radial-gradient(ellipse at 20% 50%, rgba(124, 58, 237, 0.06) 0%, transparent 50%),
-    radial-gradient(ellipse at 80% 20%, rgba(129, 140, 248, 0.04) 0%, transparent 50%),
-    radial-gradient(ellipse at 50% 80%, rgba(192, 132, 252, 0.03) 0%, transparent 50%);
+    radial-gradient(ellipse at 20% 50%, rgba(37, 99, 235, 0.06) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 20%, rgba(59, 130, 246, 0.04) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 80%, rgba(96, 165, 250, 0.03) 0%, transparent 50%);
   pointer-events: none;
   z-index: 0;
   animation: ambientShift 20s ease-in-out infinite;
@@ -132,7 +132,7 @@ body {
 .navbar-brand svg {
   width: 30px;
   height: 30px;
-  filter: drop-shadow(0 0 8px rgba(124, 58, 237, 0.4));
+  filter: drop-shadow(0 0 8px rgba(37, 99, 235, 0.4));
 }
 
 .navbar-brand h1 {
@@ -148,7 +148,7 @@ body {
 .navbar-links {
   display: flex;
   gap: 0.25rem;
-  background: rgba(124, 58, 237, 0.06);
+  background: rgba(37, 99, 235, 0.06);
   padding: 0.25rem;
   border-radius: var(--radius-full);
   border: 1px solid var(--border-color);
@@ -225,7 +225,7 @@ body {
   left: 0;
   right: 0;
   height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(124, 58, 237, 0.3), transparent);
+  background: linear-gradient(90deg, transparent, rgba(37, 99, 235, 0.3), transparent);
   opacity: 0;
   transition: var(--transition);
 }
@@ -357,7 +357,7 @@ body {
 
 .input:focus {
   border-color: var(--accent-primary);
-  box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.12), var(--shadow-glow);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12), var(--shadow-glow);
 }
 
 .input::placeholder {
@@ -384,7 +384,7 @@ textarea.input {
   font-size: 0.72rem;
   font-weight: 700;
   border-radius: var(--radius-full);
-  background: rgba(124, 58, 237, 0.12);
+  background: rgba(37, 99, 235, 0.12);
   color: var(--accent-secondary);
   letter-spacing: 0.02em;
   text-transform: uppercase;
@@ -482,7 +482,7 @@ textarea.input {
   position: absolute;
   inset: 0;
   border-radius: var(--radius-md);
-  background: linear-gradient(135deg, rgba(124, 58, 237, 0.03), transparent);
+  background: linear-gradient(135deg, rgba(37, 99, 235, 0.03), transparent);
   opacity: 0;
   transition: var(--transition);
   pointer-events: none;
@@ -883,8 +883,8 @@ textarea.input {
 /* ── Scrollbar ─────────────────────────────────────────────── */
 ::-webkit-scrollbar { width: 6px; }
 ::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: rgba(124, 58, 237, 0.2); border-radius: var(--radius-full); }
-::-webkit-scrollbar-thumb:hover { background: rgba(124, 58, 237, 0.35); }
+::-webkit-scrollbar-thumb { background: rgba(37, 99, 235, 0.2); border-radius: var(--radius-full); }
+::-webkit-scrollbar-thumb:hover { background: rgba(37, 99, 235, 0.35); }
 
 /* ── Responsive ────────────────────────────────────────────── */
 @media (max-width: 768px) {
